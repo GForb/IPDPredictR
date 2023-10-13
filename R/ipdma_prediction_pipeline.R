@@ -19,9 +19,20 @@ ipdma_prediction_pipeline <- function(data, model_function, predict_function = N
   }
   
   if(InternalExternalCV){
-    results_df <- ipdma_prediction_pipeline_IECV
+    results_df <- ipdma_prediction_pipeline_IECV(
+      data = data,
+      model_function = model_function,
+      evaluate_performance = evaluate_performance,
+      study_var = study_var
+    )
   } else {
-    results_df <- ipdma_prediction_pipeline_test_data
+    results_df <- ipdma_prediction_pipeline_test_data(
+      data = data,
+      model_function = model_function,
+      evaluate_performance = evaluate_performance,
+      test_data = test_data,
+      study_var = study_var
+    )
   }
   
   return(results_df)
@@ -30,7 +41,6 @@ ipdma_prediction_pipeline <- function(data, model_function, predict_function = N
 ipdma_prediction_pipeline_test_data<- function(
     data, 
     model_function, 
-    predict_function = NULL, 
     evaluate_performance, 
     test_data, 
     study_var = "studyid") {

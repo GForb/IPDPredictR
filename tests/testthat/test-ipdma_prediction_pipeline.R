@@ -1,3 +1,20 @@
+test_that("ipdma_prediction_pipeline", {
+  train_data <- test_gen_cont_data()
+  test_data <- test_gen_cont_data()
+  
+  cont_model <- test_model_cont(train_data)
+  cont_results <- ipdma_prediction_pipeline(
+    data = train_data, 
+    model_function = test_model_cont,
+    evaluate_performance = evaluate_performance_continuous,
+    test_data = test_data,
+    study_var = "studyid",
+    InternalExternalCV = FALSE)
+  expect_equal(nrow(cont_results), 3)
+  
+  
+})
+
 
 test_that("ipdma_prediction_pipeline_test_data", {
   train_data <- test_gen_cont_data()
