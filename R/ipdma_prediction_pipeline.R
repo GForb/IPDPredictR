@@ -1,4 +1,7 @@
 
+
+
+
 #' Pipeline for developing and validating a prediction model by study for an IPD Meta-analysis with training and test data.
 #'
 #' @param train_data data used to fit the model
@@ -10,52 +13,83 @@
 #' @export
 #'
 #' @examples
-ipdma_prediction_pipeline <- function(data, model_function, predict_function = NULL, evaluate_performance, InternalExternalCV = TRUE, test_data = NULL, study_var = "studyid") {
+ipdma_prediction_pipeline <- function(data, model_function, InternalExternalCV = TRUE, predict_function = predict, evaluate_performance, test_data = NULL, out_var_name, study_var_name = "studyid") {
+  check_IECV_test_data(InternalExternalCV, test_data)
+  
+  if(InternalExternalCV){
+    predictions_df <- get_predictions_by_study_IECV(data, model_function, predict_function, study_var_name, out_var_name) 
+  } else {
+    model <- model_function(data)
+    by_study_predictions_df <- get_predictions(test_data, model, predict_function, out_var_name, study_var_name)
+  }
+  
+  by_study_performance <- get_performance_by_study(by_study_predictions_df, evaluate_performance)
+  results_df <- meta_analyse_performance_df(by_study_performance)
+  
+  return(results_df)
+}
+
+check_IECV_test_data <- function(InternalExternalCV, test_data) {
   if(InternalExternalCV & !is.null(test_data)){
-    warning("Test data will not be used. Performance will be estiamted using Internal-External Cross validaiton. To use test_data to evaluate performance set InternalExternalCV=False")
+    warning("Test data will not be used. 
+            Performance will be estiamted using Internal-External Cross validaiton. 
+            To use test_data to evaluate performance set InternalExternalCV=False")
   }
   if (!InternalExternalCV  & is.null(test_data)) {
     stop("If InternalExternalCV is set to False, test_data must be provided")
   }
+}
+
+get_predictions_by_study_IECV <- function(data, model_function, predict_function, study_var_name, out_var_name) {
+  study_col <- data[,study_var_name]
+  studies <- study_col |> unique()
   
-  if(InternalExternalCV){
-    results_df <- ipdma_prediction_pipeline_IECV(
-      data = data,
-      model_function = model_function,
-      evaluate_performance = evaluate_performance,
-      study_var = study_var
-    )
-  } else {
-    results_df <- ipdma_prediction_pipeline_test_data(
-      data = data,
-      model_function = model_function,
-      evaluate_performance = evaluate_performance,
-      test_data = test_data,
-      study_var = study_var
-    )
-  }
+  predictions_list <- lapply(studies, get_IECV_prediction_for_a_study, 
+                             data = data, model_function = model_function,  study_col = study_col, predict_function = predict_function, out_var_name = out_var_name)
+  predictions_df <- do.call(rbind, results_list)
+  rownames(predictions_df) <- NULL
+  return(predictions_df)
+}
+
+
+get_IECV_prediction_for_a_study <- function(study, data, model_function, study_col, predict_function, out_var_name, study_var_name) {
+  train_data <- data[!study_col==study,]
+  test_data <- data[study_col==study,]
+  model <- model_function(train_data)
   
+  get_predictions(test_data, model, predict_function, out_var_name, study_var_name)
   return(results_df)
 }
 
-ipdma_prediction_pipeline_test_data<- function(
-    data, 
-    model_function, 
-    evaluate_performance, 
-    test_data, 
-    study_var = "studyid") {
-  
-  model <- model_function(data)
-  by_study_performacne <- get_performance_by_study(test_data, model, evaluate_performance, study_var = study_var)
-  results_df <- meta_analyse_performance_df(by_study_performacne)
+get_predictions <- function(test_data, model, predict_function, out_var_name, study_var_name) {
+  actual <- test_data[,out_var_name]
+  predictions <- predict_function(model, newdata = test_data)
+  results_df <- data.frame(actual = actual, pred = predictions)
+  results_df$study <- test_data[,study_var_name]
   return(results_df)
 }
 
-ipdma_prediction_pipeline_IECV <- function(data, model_function,  evaluate_performance, study_var = "studyid") {
-  by_study_performacne <- get_performance_by_study_IECV(data, model_function, evaluate_performance, study_var)
-  results_df <- meta_analyse_performance_df(by_study_performacne)
+get_performance_by_study <- function(by_study_predictions_df, evaluate_performance) {
+
+  study_col <- by_study_predictions_df$study
+  studies <- unique(study_col)
+  
+  results_list <- lapply(studies, get_performance_for_a_study,
+                         by_study_predictions_df = by_study_predictions_df, evaluate_performance = evaluate_performance)
+  results_df <- do.call(rbind, results_list)
+  rownames(results_df) <- NULL
+
   return(results_df)
 }
+
+get_performance_for_a_study <- function(study, by_study_predictions_df, evaluate_performance) {
+  predictions_df <- by_study_predictions_df[by_study_predictions_df$study==study, ]
+  performance <- evaluate_performance(actual = predictions_df$actual, predicted = predictions_df$pred)
+
+  return(performance)
+}
+
+
 
 meta_analyse_performance_df <- function(by_study_performacne_df) {
   metrics <- unique(by_study_performacne_df$metric)
@@ -64,51 +98,9 @@ meta_analyse_performance_df <- function(by_study_performacne_df) {
   return(results_df)
 }
 
-get_performance_by_study_IECV <- function(data, model_function, evaluate_performance, study_var) {
-  study_col <- data[,study_var]
-  studies <- study_col |> unique()
-  
-  results_list <- lapply(studies, IECV_for_a_study, 
-                         data = data, model_function = model_function,
-                         evaluate_performance = evaluate_performance,
-                         study_col = study_col)
-  results <- do.call(rbind, results_list)
-  rownames(results) <- NULL
-  return(results)
-}
 
-IECV_for_a_study <- function(study, data, model_function, evaluate_performance, study_col) {
-  train_data <- data[!study_col==study,]
-  test_data <- data[study_col==study,]
-  
-  model <- model_function(train_data)
-  results <- evaluate_performance(test_data, model)
-  results$studyid <- study
-  return(results)
-}
 
-get_performance_by_study <- function(test_data, model, evaluate_performance, study_var) {
-  if (!(study_var %in% colnames(test_data))) {
-    stop("test data must include varaible called study_var")
-  }
-  study_col_test <- test_data[,study_var]
-  studies <- unique(study_col_test)
-  
-  results_list <- lapply(
-    studies, 
-    performance_by_study, 
-    model = model, test_data = test_data, study_col_test = study_col_test, evaluate_performance = evaluate_performance)
-  results <- do.call(rbind, results_list)
-  rownames(results) <- NULL
-  return(results)
-}
 
-performance_by_study <- function(study, model, test_data, study_col_test, evaluate_performance) {
-  study_test_data <- test_data[study_col_test == study,]
-  results <- evaluate_performance(study_test_data, model)
-  results$studyid <- study
-  return(results)
-}
 
 meta_analyse_performance <- function(metric, by_study_performacne) {
   results_df <- data.frame(metric,

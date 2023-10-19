@@ -97,18 +97,7 @@ metric_rsqared_old <- function(predicted_lp, observed_outcome) {
 }
 
 
-evaluate_performance_continuous_old <- function(test_data, model) {
-  outcome <- names(stats::model.frame(model))[1]
-  observed_outcome <- test_data[, outcome]
-  predicted_lp <- predict(model, newdata = test_data)
-  rbind(
-    metric_calib_slope_cont(predicted_lp, observed_outcome),
-    metric_calib_itl_cont(predicted_lp, observed_outcome),
-    metric_rsqared(predicted_lp, observed_outcome),
-    metric_rsqared_old(predicted_lp, observed_outcome),
-    make.row.names = FALSE
-   )
-}
+
 
 
 evaluate_performance_continuous <- function(test_data, model, new_studies = FALSE) {
@@ -138,11 +127,11 @@ evaluate_performance_continuous <- function(test_data, model, new_studies = FALS
 
 }
 
-evaluate_performance_cont_obs_pred <- function(observed, predicted) {
+evaluate_performance_cont_obs_pred <- function(actual, predicted) {
   rbind(
-    metric_calib_slope_cont(predicted, observed),
-    metric_calib_itl_cont(predicted, observed),
-    metric_rsqared(predicted, observed),
+    metric_calib_slope_cont(predicted, actual),
+    metric_calib_itl_cont(predicted, actual),
+    metric_rsqared(predicted, actual),
     make.row.names = FALSE
   )
 }
