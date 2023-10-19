@@ -1,3 +1,7 @@
+model_rows_study_cols <- function(variables) {
+  
+}
+
 IPDMA_predict_multiple_models <- function(model_function_list, model_labels = NULL, data , InternalExternalCV = TRUE, predict_function = predict, evaluate_performance, test_data = NULL, out_var_name, study_var_name = "studyid") {
   if(!is.null(model_labels)){
     check_model_labels(model_function_list, model_labels)
