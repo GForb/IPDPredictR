@@ -1,7 +1,6 @@
 test_that("get_rand_int", {
   set.seed(1234)
-  sigmas <- get_sigmas(n_predictors = 12, ICC = 0.3, R2 = 0.7)
-  data <- generate_continuous(10,100, sigmas= sigmas)
+  data <- test_gen_cont_data()
 
   model <- lme4::lmer("y ~ x1 + x2 + x3+ x4 + x5 + x6 + x7 + x8 + x9 + x10 + x11 + x12+ (1|studyid)",
                       data = data)
@@ -25,8 +24,7 @@ test_that("get_rand_int", {
 
 test_that("get_x_prediction", {
   set.seed(1234)
-  sigmas <- get_sigmas(n_predictors = 12, ICC = 0.3, R2 = 0.7)
-  data <- generate_continuous(10,100, sigmas= sigmas)
+  data <- test_gen_cont_data()
 
   model <- lm("y ~ x1 + x2 + x3+ x4 + x5 + x6 + x7 + x8 + x9 + x10 + x11 + x12",
               data = data)
@@ -36,15 +34,14 @@ test_that("get_x_prediction", {
 
   pred_x <- get_x_prediction(model, newdata = data)
   diff <- sum(abs(pred_x - fixed_pred))
-  expect_equal(diff, 0, tol = 0.0001)
+  expect_equal(diff, 0, tolerance = 0.0001)
 
 
 })
 
 test_that("get_fixed_int_offset", {
   set.seed(1234)
-  sigmas <- get_sigmas(n_predictors = 12, ICC = 0.3, R2 = 0.7)
-  data <- generate_continuous(10,100, sigmas= sigmas)
+  data <- test_gen_cont_data()
 
   model <- lm("y ~ x1 + x2 + x3+ x4 + x5 + x6 + x7 + x8 + x9 + x10 + x11 + x12+studyid",
                       data = data)
