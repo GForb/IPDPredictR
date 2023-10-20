@@ -23,9 +23,8 @@ ipdma_prediction_pipeline <- function(data, model_function, InternalExternalCV =
     by_study_predictions_df <- get_predictions(test_data, model, predict_function, out_var_name, study_var_name)
   }
   
-  by_study_performance <- get_performance_by_study(by_study_predictions_df, evaluate_performance)
-  results_df <- meta_analyse_performance_df(by_study_performance)
-  
+  results_df <- meta_analyse_predictions(by_study_predictions_df, evaluate_performance)
+
   return(results_df)
 }
 
@@ -38,6 +37,12 @@ check_IECV_test_data <- function(InternalExternalCV, test_data) {
   if (!InternalExternalCV  & is.null(test_data)) {
     stop("If InternalExternalCV is set to False, test_data must be provided")
   }
+}
+
+meta_analyse_predictions <- function(predictions, evaluate_performance) {
+  by_study_performance <- get_performance_by_study(predictions, evaluate_performance)
+  results_df <- meta_analyse_performance_df(by_study_performance)
+  return(results_df)
 }
 
 get_predictions_by_study_IECV <- function(data, model_function, predict_function, study_var_name, out_var_name) {
