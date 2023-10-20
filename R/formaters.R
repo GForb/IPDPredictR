@@ -8,7 +8,8 @@ results_flextable <- function(results_df, est_digits = 2) {
     flextable::hline(i = hlines_at) |> 
     flextable::colformat_double(j = "est", digits = est_digits) |> 
     flextable::colformat_double(j = "se", digits = 3) |> 
-    flextable::colformat_double(j = "tau2", digits = 4)
+    flextable::colformat_double(j = "tau2", digits = 4) |> 
+    flextable::width(j = c("ci", "pi"), width = 1)
   if("model" %in% colnames(results_df)){
     ft <-  ft |> flextable::merge_v(j = "model") 
   }
