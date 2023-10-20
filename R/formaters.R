@@ -1,5 +1,5 @@
 
-results_flextable <- function(results_df, est_digits = 2, ci_column_with_in = 1.4) {
+results_flextable <- function(results_df, est_digits = 2, ci_column_width_in = 1.4) {
   n_rows = nrow(results_df)
   hlines_at = 3* (1:((n_rows -1)/3))
   ft <- results_df |> 
