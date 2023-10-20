@@ -1,5 +1,5 @@
 
-results_flextable <- function(results_df, est_digits = 2) {
+results_flextable <- function(results_df, est_digits = 2, ci_column_with_in = 1.4) {
   n_rows = nrow(results_df)
   hlines_at = 3* (1:((n_rows -1)/3))
   ft <- results_df |> 
@@ -9,7 +9,7 @@ results_flextable <- function(results_df, est_digits = 2) {
     flextable::colformat_double(j = "est", digits = est_digits) |> 
     flextable::colformat_double(j = "se", digits = 3) |> 
     flextable::colformat_double(j = "tau2", digits = 4) |> 
-    flextable::width(j = c("ci", "pi"), width = 1)
+    flextable::width(j = c("ci", "pi"), width = ci_column_with_in)
   if("model" %in% colnames(results_df)){
     ft <-  ft |> flextable::merge_v(j = "model") 
   }
