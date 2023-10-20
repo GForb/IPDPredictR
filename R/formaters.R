@@ -19,7 +19,7 @@ results_flextable <- function(results_df, est_digits = 2, ci_column_width_in = 1
 compress_columns <- function(results_df, digits = 2) {
   results_df |> dplyr::mutate(ci = form_interval(ci.lb, ci.ub, digits)) |> 
     dplyr::mutate(pi = form_interval(pi.lb, pi.ub, digits)) |> 
-    dplyr::select(any_of("model"),metric, est, ci, pi, se, tau2)
+    dplyr::select(any_of(c("model", "outcome"),metric, est, ci, pi, se, tau2)
   
 }
 
@@ -31,7 +31,7 @@ est_tau2 <- function(results_df, digits = 2) {
                           formatC(tau2, digits = digits, format = "fg"),
                           ")"
                         )) |> 
-    dplyr::select(any_of("model", "outcome"), metric, est_tau2)
+    dplyr::select(any_of(c("model", "outcome")), metric, est_tau2)
 }
 
 form_interval <- function(ll, ub, digits) {

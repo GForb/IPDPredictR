@@ -3,7 +3,7 @@ IPDMA_predict_model_rows_study_cols <- function(model_factories, model_labels=NU
                                                 data, 
                                                 InternalExternalCV = 
                                                   TRUE, 
-                                                predict_function, 
+                                                predict_function = predict, 
                                                 evaluate_performance, 
                                                 test_data = NULL, 
                                                 study_var_name = "studyid") {
