@@ -23,6 +23,17 @@ compress_columns <- function(results_df, digits = 2) {
   
 }
 
+est_tau2 <- function(results_df, digits = 2) {
+  results_df |> 
+    dplyr::mutate(est_tau2 = paste0(
+                          formatC(est, digits = digits, format = "fg"), 
+                          " (tau2 = ", 
+                          formatC(tau2, digits = digits, format = "fg"),
+                          ")"
+                        )) |> 
+    dplyr::select(any_of("model", "outcome"), metric, est_tau2)
+}
+
 form_interval <- function(ll, ub, digits) {
   paste0("(", formatC(ll, digits = digits, format = "fg"), ", ", formatC(ub, digits = digits, format = "fg"), ")")
 }
