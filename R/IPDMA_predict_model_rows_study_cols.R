@@ -8,7 +8,7 @@ IPDMA_predict_model_rows_study_cols <- function(model_factories, model_labels=NU
                                                 test_data = NULL, 
                                                 study_var_name = "studyid") {
   if(!is.null(model_labels)){
-    if(!label_check(model_function_list, model_labels)) {
+    if(!label_check(model_factories, model_labels)) {
       stop("Model function list must be same length as model_labels")
     }
   }
