@@ -1,4 +1,4 @@
-IPDMA_predict_model_rows_study_cols <- function(model_factories, mdoel_lables=NULL, 
+IPDMA_predict_model_rows_study_cols <- function(model_factories, model_lables=NULL, 
                                                 outcome_var_names, outcome_labels=NULL, 
                                                 data, 
                                                 InternalExternalCV = 
@@ -21,7 +21,7 @@ IPDMA_predict_model_rows_study_cols <- function(model_factories, mdoel_lables=NU
   df_list <- lapply(outcome_var_names, 
          get_results_for_outcome, 
          model_factories = model_factories,
-         mdoel_lables=mdoel_lables, 
+         model_lables=model_lables, 
          data = data,
          InternalExternalCV = InternalExternalCV,
          predict_function = predict_function, 

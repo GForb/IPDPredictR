@@ -1,29 +1,12 @@
-IPDMA_predict_model_rows_study_cols <- function(model_function_list, mdoel_lables=NULL, 
-                                                outcome_var_names, outcome_labels=NULL, 
-                                                data, 
-                                                InternalExternalCV = 
-                                                  TRUE, 
-                                                predict_function, 
-                                                evaluate_performance, 
-                                                test_data = NULL, 
-                                                study_var_name = "studyid") {
-  if(!is.null(model_labels)){
-    if(!label_check(model_function_list, model_labels)) {
-      stop("Model function list must be same length as model_labels")
-    }
-  }
-  if(!is.null(outcome_labels)){
-    if(!label_check(outcome_var_names, outcome_labels)) {
-      stop("Model function list must be same length as model_labels")
-    }
-  }
-  
-  
-  
-  
-}
-
-IPDMA_predict_multiple_models <- function(model_function_list, model_labels = NULL, data , InternalExternalCV = TRUE, predict_function = predict, evaluate_performance, test_data = NULL, out_var_name, study_var_name = "studyid") {
+IPDMA_predict_multiple_models <- function(model_function_list, 
+                                          model_labels = NULL, 
+                                          data , 
+                                          InternalExternalCV = TRUE, 
+                                          predict_function = predict, 
+                                          evaluate_performance, 
+                                          test_data = NULL, 
+                                          out_var_name, 
+                                          study_var_name = "studyid") {
   if(!is.null(model_labels)){
     if(!label_check(model_function_list, model_labels)) {
       stop("Model function list must be same length as model_labels")
@@ -74,6 +57,3 @@ add_names_to_results <- function(results_df, model_labels) {
   
 }
 
-multiple_models <- function(results_list) {
-  
-}
