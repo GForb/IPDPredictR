@@ -21,7 +21,7 @@ IPDMA_predict_model_rows_study_cols <- function(model_factories, model_labels=NU
   df_list <- lapply(outcome_var_names, 
          get_results_for_outcome, 
          model_factories = model_factories,
-         model_lables=model_labels, 
+         model_labels=model_labels, 
          data = data,
          InternalExternalCV = InternalExternalCV,
          predict_function = predict_function, 
@@ -38,7 +38,7 @@ IPDMA_predict_model_rows_study_cols <- function(model_factories, model_labels=NU
   
 get_results_for_outcome <- function(outcome_var_name, model_factories, ...) {
   model_function_list <- get_model_function_list(model_factories, outcome_var_name)
-  results_df <-  IPDMA_predict_multiple_models(model_function_list, outcome_var_name = outcome_var_name, ...) 
+  results_df <-  IPDMA_predict_multiple_models(model_function_list, out_var_name = outcome_var_name, ...) 
   results_df$outcome <- outcome_var_name
   return(results_df)
 }
