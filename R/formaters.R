@@ -31,7 +31,7 @@ est_tau2 <- function(results_df, digits = 2) {
                           formatC(tau2, digits = digits, format = "fg"),
                           ")"
                         )) |> 
-    dplyr::select(-est, -se, -dplyr::starts_with("ci"), -dplyr::starts_with("pi"))
+    dplyr::select(-est, -se, -tau2, -dplyr::starts_with("ci"), -dplyr::starts_with("pi"))
 }
 
 form_interval <- function(ll, ub, digits) {
