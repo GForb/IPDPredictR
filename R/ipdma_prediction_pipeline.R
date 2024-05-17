@@ -1,6 +1,7 @@
 
-ipdma_prediction_pipeline_model_pred <- function(data, model_pred_fun, evaluate_performance, out_var_name, study_var_name) {
+ipdma_prediction_pipeline_model_pred_cont <- function(data, model_pred_fun, out_var_name, study_var_name) {
   by_study_predictions_df <- model_pred_fun(data)
+  evaluate_performance <-  evaluate_performance_cont_obs_pred
   results_df <- meta_analyse_predictions(by_study_predictions_df, evaluate_performance)
   return(results_df)
 }
@@ -86,7 +87,7 @@ get_performance_by_study <- function(by_study_predictions_df, evaluate_performan
 get_performance_for_a_study <- function(study, by_study_predictions_df, evaluate_performance, study_var_name) {
   predictions_df <- by_study_predictions_df[by_study_predictions_df[,study_var_name]==study, ]
   performance <- evaluate_performance(actual = predictions_df$actual, predicted = predictions_df$pred)
-
+  performance[,study_var_name] <- study
   return(performance)
 }
 
