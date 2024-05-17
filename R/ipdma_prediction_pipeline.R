@@ -2,14 +2,14 @@
 ipdma_prediction_pipeline_model_pred_cont <- function(data, model_pred_fun, out_var_name, study_var_name) {
   by_study_predictions_df <- model_pred_fun(data)
   evaluate_performance <-  evaluate_performance_cont_obs_pred
-  results_df <- meta_analyse_predictions(by_study_predictions_df, evaluate_performance)
+  results_df <- meta_analyse_predictions(by_study_predictions_df, evaluate_performance, study_var_name)
   return(results_df)
 }
 
 meta_analyse_predictions_cont <- function(predictions) {
   evaluate_performance <-  evaluate_performance_cont_obs_pred
-  by_study_performance <- get_performance_by_study(predictions, evaluate_performance)
-  results <- meta_analyse_performance_df(by_study_performance)
+  results <-  mata_analyse_predictions(predictions, evaluate_performance)
+
   return(results)
 }
 
