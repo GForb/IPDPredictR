@@ -8,7 +8,7 @@ ipdma_prediction_pipeline_model_pred_cont <- function(data, model_pred_fun, out_
 
 meta_analyse_predictions_cont <- function(predictions) {
   evaluate_performance <-  evaluate_performance_cont_obs_pred
-  results <-  mata_analyse_predictions(predictions, evaluate_performance)
+  results <-  meta_analyse_predictions(predictions, evaluate_performance)
 
   return(results)
 }
