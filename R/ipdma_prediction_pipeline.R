@@ -6,6 +6,12 @@ ipdma_prediction_pipeline_model_pred_cont <- function(data, model_pred_fun, out_
   return(results_df)
 }
 
+meta_analyse_predictions_cont <- function(predictions) {
+  evaluate_performance <-  evaluate_performance_cont_obs_pred
+  by_study_performance <- get_performance_by_study(predictions, evaluate_performance)
+  results <- meta_analyse_performance_df(by_study_performance)
+  return(results)
+}
 
 #' Pipeline for developing and validating a prediction model by study for an IPD Meta-analysis with training and test data.
 #'
@@ -96,8 +102,10 @@ get_performance_for_a_study <- function(study, by_study_predictions_df, evaluate
 meta_analyse_performance_df <- function(by_study_performacne_df) {
   metrics <- unique(by_study_performacne_df$metric)
   results_list <- lapply(metrics, meta_analyse_performance, by_study_performacne = by_study_performacne_df)
-  results_df <- dplyr::bind_rows(results_list)
-  return(results_df)
+  
+  results_df <- lapply(results_list, function(x) x[[1]]) |> dplyr::bind_rows()
+  results_list <- lapply(results_list, function(x) x[-1])
+  return(list(results_df = results_df, results_list = results_list))
 }
 
 
