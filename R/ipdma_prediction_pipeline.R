@@ -6,9 +6,9 @@ ipdma_prediction_pipeline_model_pred_cont <- function(data, model_pred_fun, out_
   return(results_df)
 }
 
-meta_analyse_predictions_cont <- function(predictions) {
+meta_analyse_predictions_cont <- function(predictions, study_var_name) {
   evaluate_performance <-  evaluate_performance_cont_obs_pred
-  results <-  meta_analyse_predictions(predictions, evaluate_performance)
+  results <-  meta_analyse_predictions(predictions = predictions, evaluate_performance = evaluate_performance, study_var_name = study_var_name)
 
   return(results)
 }
@@ -105,6 +105,10 @@ meta_analyse_performance_df <- function(by_study_performacne_df) {
   
   results_df <- lapply(results_list, function(x) x[[1]]) |> dplyr::bind_rows()
   results_list <- lapply(results_list, function(x) x[-1])
+  
+  results_list <- results_list |> unlist(recursive = FALSE)
+  names(results_list) <- results_df$metric
+  
   return(list(results_df = results_df, results_list = results_list))
 }
 
