@@ -33,13 +33,20 @@ evaluate_performance_binary <- function(test_data, model) {
         metric_cstat(predicted_lp, observed_outcome))
 }
 
-metric_calib_slope_cont <- function(predicted_lp, observed_outcome) {
+metric_calib_slope_cont <- function(predicted_lp, observed_outcome, report_intercept = FALSE) {
   data <- data.frame(predicted_lp = predicted_lp, observed_outcome = observed_outcome)
   fit <- lm(observed_outcome ~ predicted_lp, data=data)
   coef <- fit$coef[2]
   se <- sqrt(diag(vcov(fit)))[2]
-  return(data.frame(metric = "calib_slope", coef = coef, se = se))
+  if(report_intercept){
+    intercept <- fit$coef[1]
+    return(data.frame(metric = "calib_slope", coef = coef, se = se, intercept = intercept))
+  } else {
+    return(data.frame(metric = "calib_slope", coef = coef, se = se))
+  }
 }
+
+
 
 metric_calib_itl_cont <- function(predicted_lp, observed_outcome) {
   data <- data.frame(predicted_lp = predicted_lp, observed_outcome = observed_outcome)
