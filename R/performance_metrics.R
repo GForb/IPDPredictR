@@ -46,9 +46,7 @@ metric_calib_slope_cont <- function(predicted_lp, observed_outcome, report_inter
   }
 }
 
-metric_calib_slope_cont_intercept <- function(predicted_lp, observed_outcome) {
-  metric_calib_slope_cont(predicted_lp, observed_outcome, report_intercept = TRUE)
-}
+
 
 
 metric_calib_itl_cont <- function(predicted_lp, observed_outcome) {
@@ -144,6 +142,10 @@ evaluate_performance_cont_obs_pred <- function(actual, predicted) {
     metric_rsqared(predicted, actual),
     make.row.names = FALSE
   )
+}
+
+evaluate_performance_cont_obs_pred_calib_slope_int <- function(actual, predicted) {
+  metric_calib_slope_cont(predicted, actual, report_intercept = TRUE)
 }
 
 
