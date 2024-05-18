@@ -8,12 +8,12 @@ calibration_plot_cont <- function(predictions_df, study_var_name) {
   predictions_df[,study_var_name] <- factor(predictions_df[,study_var_name])
   plot <- predictions_df |> 
     ggplot(aes(x = pred, y = actual)) +
-    geom_point(size = 0.5) +
+    geom_point(size = 0.75) +
     geom_abline(data = calib_results, aes(
       intercept = intercept, 
       slope = coef, 
       linetype = "Calibration line"), color = "black", show.legend = FALSE) +
-    geom_smooth(aes(linetype = "Smoothed Calibration"), method="auto", se=TRUE, fullrange=FALSE, level=0.95, size = 0.5, colour = "blue") +
+    geom_smooth(aes(linetype = "Smoothed Calibration"), method="auto", se=FALSE, fullrange=FALSE, level=0.95, size = 0.5, colour = "blue") +
     geom_abline(aes(linetype = "Perfect calibration", intercept = 0, slope = 1), color = "red", show.legend = FALSE, size = 1.2) +
     facet_wrap(facets = vars(study), nrow = 2) +
     scale_linetype_manual(
