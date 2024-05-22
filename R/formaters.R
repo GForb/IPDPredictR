@@ -19,7 +19,7 @@ results_flextable <- function(results_df, est_digits = 2, ci_column_width_in = 1
 compress_columns <- function(results_df, digits = 2) {
   results_df |> dplyr::mutate(ci = form_interval(ci.lb, ci.ub, digits)) |> 
     dplyr::mutate(pi = form_interval(pi.lb, pi.ub, digits)) |> 
-    dplyr::select(-dplyr::starts_with("ci"), -dplyr::starts_with("pi"))
+    dplyr::select(-dplyr::starts_with("ci."), -dplyr::starts_with("pi."))
   
 }
 

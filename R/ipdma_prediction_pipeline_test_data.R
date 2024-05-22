@@ -26,7 +26,7 @@ ipdma_prediction_pipeline_test_data <- function(
     by_study_predictions_df <- get_predictions(test_data, model, predict_function, out_var_name, study_var_name)
 
   
-  results_df <- meta_analyse_predictions(by_study_predictions_df, evaluate_performance)
+  results_df <- meta_analyse_predictions(by_study_predictions_df, evaluate_performance, study_var_name= study_var_name)
   
   return(results_df)
 }
@@ -36,7 +36,7 @@ get_predictions <- function(test_data, model, predict_function, out_var_name, st
   actual <- test_data[,out_var_name]
   predictions <- predict_function(model, newdata = test_data)
   results_df <- data.frame(actual = actual, pred = predictions)
-  results_df$study <- test_data[,study_var_name]
+  results_df[,study_var_name] <- test_data[,study_var_name]
   return(results_df)
 }
 

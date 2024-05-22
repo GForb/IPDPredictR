@@ -12,8 +12,7 @@ IPDMA_predict_multiple_models <- function(model_function_list,
       stop("Model function list must be same length as model_labels")
     }
   }
-  check_IECV_test_data(InternalExternalCV, test_data)
-  
+
   if(InternalExternalCV){
     
   } else {
