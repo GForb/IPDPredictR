@@ -35,5 +35,5 @@ est_tau2 <- function(results_df, digits = 2) {
 }
 
 form_interval <- function(ll, ub, digits) {
-  paste0("(", formatC(ll, digits = digits, format = "fg"), ", ", formatC(ub, digits = digits, format = "fg"), ")")
+  paste0("(", round(ll, digits = digits), ", ", round(ub, digits = digits), ")")
 }
