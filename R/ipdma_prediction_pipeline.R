@@ -31,7 +31,7 @@ ipdma_prediction_pipeline <- function(
     out_var_name, 
     study_var_name = "studyid") {
 
-  redictions_df <- get_predictions_by_study_IECV(data, model_function, predict_function, study_var_name, out_var_name) 
+  by_study_predictions_df <- get_predictions_by_study_IECV(data, model_function, predict_function, study_var_name, out_var_name) 
   
   
   results_df <- meta_analyse_predictions(by_study_predictions_df, evaluate_performance)
@@ -59,7 +59,6 @@ get_IECV_prediction_for_a_study <- function(study, data, model_function, study_c
   model <- model_function(train_data)
   
   get_predictions(test_data, model, predict_function, out_var_name, study_var_name)
-  return(results_df)
 }
 
 
@@ -67,8 +66,8 @@ get_IECV_prediction_for_a_study <- function(study, data, model_function, study_c
 
 meta_analyse_predictions <- function(predictions, evaluate_performance, study_var_name) {
   by_study_performance <- get_performance_by_study(predictions, evaluate_performance, study_var_name)
-  results_df <- meta_analyse_performance_df(by_study_performance)
-  return(results_df)
+  meta_analyse_performance_df(by_study_performance)
+
 }
 
 
