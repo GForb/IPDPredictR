@@ -26,9 +26,9 @@ compress_columns <- function(results_df, digits = 2) {
 est_tau2 <- function(results_df, digits = 2) {
   results_df |> 
     dplyr::mutate(est_tau2 = paste0(
-                          formatC(est, digits = digits, format = "fg"), 
+                          round(est, digits = digits), 
                           " (tau2 = ", 
-                          formatC(tau2, digits = digits, format = "fg"),
+                          round(tau2, digits = digits),
                           ")"
                         )) |> 
     dplyr::select(-est, -se, -tau2, -dplyr::starts_with("ci"), -dplyr::starts_with("pi"))
