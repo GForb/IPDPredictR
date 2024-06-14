@@ -35,6 +35,7 @@ test_that("get_performance_by_study", {
   expect_equal(ncol(cont_preds), 3)
   
 })
+
 test_that("meta_analyse_predictions_cont", {
   train_data <- test_gen_cont_data()
   test_data <- test_gen_cont_data()
@@ -49,8 +50,8 @@ test_that("meta_analyse_predictions_cont", {
   
 results <- meta_analyse_predictions_cont(predictions = cont_preds, study_var_name = "studyid")
 
-expect_equal(nrow(results$results_df), 3)
-expect_equal(length(results$results_list), 3)
+expect_equal(nrow(results$results_df), 4)
+expect_equal(length(results$results_list), 4)
 })
 
 test_that("by_study_predictions", {
@@ -78,8 +79,8 @@ test_that("meta_analyse_predictions", {
 
   
   expect_equal(analysed_predictions$results_df |> ncol(), 8)
-  expect_equal(analysed_predictions$results_df |> nrow(), 3)
-  expect_equal(length(analysed_predictions$results_list), 3)
+  expect_equal(analysed_predictions$results_df |> nrow(), 4)
+  expect_equal(length(analysed_predictions$results_list), 4)
 
   
 })
@@ -99,8 +100,8 @@ test_that("ipdma_prediction_pipeline_test_data", {
     test_data = test_data)
 
   expect_equal(cont_results$results_df |> ncol(), 8)
-  expect_equal(cont_results$results_df |> nrow(), 3)
-  expect_equal(length(cont_results$results_list), 3)
+  expect_equal(cont_results$results_df |> nrow(), 4)
+  expect_equal(length(cont_results$results_list), 4)
   
   
 })

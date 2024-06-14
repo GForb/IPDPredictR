@@ -89,23 +89,42 @@ rsq <- function(data) {
 
 
 metric_rsqared <- function(predicted_lp, observed_outcome) {
+  bootsrap_replicates = 100
   data <- data.frame(predicted_lp = predicted_lp, observed_outcome = observed_outcome)
   coef <- rsq(data)
   # Use a bootstrap to estimate the variance
-  se <- sqrt(var(replicate(20, rsq(data[sample(1:nrow(data), replace = TRUE),]))))
-  return(data.frame(metric = "r-squared", coef = coef, se = se))
+  se <- sqrt(var(replicate(bootsrap_replicates, rsq(data[sample(1:nrow(data), replace = TRUE),]))))
+  return(data.frame(metric = "r_squared", coef = coef, se = se))
 }
+
+
 
 metric_rsqared_old <- function(predicted_lp, observed_outcome) {
   data <- data.frame(predicted_lp = predicted_lp, observed_outcome = observed_outcome)
   coef <- rsq(data)
   # Use a bootstrap to estimate the variance
-  se <- sqrt(var(replicate(20, rsq(data[sample(1:nrow(data), replace = TRUE),]))))
+  se <- sqrt(var(replicate(bootsrap_replicates, rsq(data[sample(1:nrow(data), replace = TRUE),]))))
   return(data.frame(metric = "r-squared old", coef = coef, se = se))
 }
 
+rmse <- function(data) {
+  predicted_lp <- data[,1]
+  observed_outcome <- data[,2]
+  n <- length(observed_outcome)
+  mse <- sum((predicted_lp - observed_outcome)^2)/n
+  rmse <- sqrt(mse)
+  return(rmse)
+}
 
-
+metric_rmse <- function(predicted_lp, observed_outcome) {
+  bootsrap_replicates = 100
+  data <- data.frame(predicted_lp = predicted_lp, observed_outcome = observed_outcome)
+  
+  coef <- rmse(data)
+  # Use a bootstrap to estimate the variance
+  se <- sqrt(var(replicate(bootsrap_replicates, rmse(data[sample(1:nrow(data), replace = TRUE),]))))
+  return(data.frame(metric = "rmse", coef = coef, se = se))
+}
 
 
 evaluate_performance_continuous <- function(test_data, model, new_studies = FALSE) {
@@ -140,6 +159,7 @@ evaluate_performance_cont_obs_pred <- function(actual, predicted) {
     metric_calib_slope_cont(predicted, actual),
     metric_calib_itl_cont(predicted, actual),
     metric_rsqared(predicted, actual),
+    metric_rmse(predicted, actual),
     make.row.names = FALSE
   )
 }
