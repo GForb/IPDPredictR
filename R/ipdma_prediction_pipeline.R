@@ -66,7 +66,8 @@ get_IECV_prediction_for_a_study <- function(study, data, model_function, study_c
 
 meta_analyse_predictions <- function(predictions, evaluate_performance, study_var_name) {
   by_study_performance <- get_performance_by_study(predictions, evaluate_performance, study_var_name)
-  meta_analyse_performance_df(by_study_performance)
+  ma <- meta_analyse_performance_df(by_study_performance)
+  return(list(meta_analysis = ma, by_study = by_study_performance))
 
 }
 
