@@ -92,9 +92,14 @@ get_performance_by_study <- function(by_study_predictions_df, evaluate_performan
 }
 
 get_performance_for_a_study <- function(study, by_study_predictions_df, evaluate_performance, study_var_name) {
+  print("starting get_performance_for_a_study")
+  prtint(study)
   predictions_df <- by_study_predictions_df[by_study_predictions_df[,study_var_name]==study, ]
+  print("predictions df created")
   performance <- evaluate_performance(actual = predictions_df$actual, predicted = predictions_df$pred)
+  print("obtained performance metrics")
   performance[,study_var_name] <- study
+  print("added study to performance")
   return(performance)
 }
 
