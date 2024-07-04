@@ -74,7 +74,7 @@ meta_analyse_predictions <- function(predictions, evaluate_performance, study_va
 
 
 get_performance_by_study <- function(by_study_predictions_df, evaluate_performance, study_var_name) {
-
+  by_study_predictions_df <-  by_study_predictions_df |> as.data.frame()  # added to aviod bug that can occur if by_study_predictions_df is a tibble
   study_col <- by_study_predictions_df[,study_var_name]
   studies <- unique(study_col)
   
