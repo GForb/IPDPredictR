@@ -176,6 +176,7 @@ evaluate_performance_cont_obs_pred <- function(actual, predicted) {
     metric_calib_slope_cont(predicted, actual),
     metric_calib_itl_cont(predicted, actual),
     metric_rsqared_transformed(predicted, actual),
+    metric_rsqared(predicted, actual),
     metric_rmse(predicted, actual),
     make.row.names = FALSE
   )
