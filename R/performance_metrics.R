@@ -87,6 +87,13 @@ rsq <- function(data) {
   return(rsq)
 }
 
+rsq_transformed <- function(data) {
+  my_rsq <- rsq(data)
+  my_rsq_trans <-  -log(1-my_rsq)
+  return(my_rsq_trans)
+}
+  
+
 
 metric_rsqared <- function(predicted_lp, observed_outcome) {
   bootsrap_replicates = 1000
@@ -96,6 +103,16 @@ metric_rsqared <- function(predicted_lp, observed_outcome) {
   se <- sqrt(var(replicate(bootsrap_replicates, rsq(data[sample(1:nrow(data), replace = TRUE),]))))
   return(data.frame(metric = "r_squared", coef = coef, se = se))
 }
+
+metric_rsqared_transformed <- function(predicted_lp, observed_outcome) {
+  bootsrap_replicates = 1000
+  data <- data.frame(predicted_lp = predicted_lp, observed_outcome = observed_outcome)
+  coef <- rsq_transformed(data)
+  # Use a bootstrap to estimate the variance
+  se <- sqrt(var(replicate(bootsrap_replicates, rsq_transformed(data[sample(1:nrow(data), replace = TRUE),]))))
+  return(data.frame(metric = "r_squared_transformed", coef = coef, se = se))
+}
+
 
 
 
@@ -158,7 +175,7 @@ evaluate_performance_cont_obs_pred <- function(actual, predicted) {
   rbind(
     metric_calib_slope_cont(predicted, actual),
     metric_calib_itl_cont(predicted, actual),
-    metric_rsqared(predicted, actual),
+    metric_rsqared_transformed(predicted, actual),
     metric_rmse(predicted, actual),
     make.row.names = FALSE
   )
