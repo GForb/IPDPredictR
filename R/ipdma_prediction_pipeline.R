@@ -6,6 +6,8 @@ ipdma_prediction_pipeline_model_pred_cont <- function(data, model_pred_fun, out_
   return(results_df)
 }
 
+
+
 meta_analyse_predictions_cont <- function(predictions, study_var_name) {
   evaluate_performance <-  evaluate_performance_cont_obs_pred
   results <-  meta_analyse_predictions(predictions = predictions, evaluate_performance = evaluate_performance, study_var_name = study_var_name)
