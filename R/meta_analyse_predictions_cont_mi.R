@@ -3,7 +3,7 @@ meta_analyse_predictions_cont_mi <- function(predictions, study_var_name, imp_in
   predictions <- predictions |> as.data.frame()
   
   predictions$study_imp = paste0(predictions[,study_var_name], "_imp", predictions[,imp_indicator_name])
-  predictions$study_imp |> unique() |> print()
+
   by_study_imp <- get_performance_by_study(predictions, evaluate_performance_cont_obs_pred, "study_imp")
   by_study_imp$study <- sub("_imp.*$", "", by_study_imp$study_imp)
   by_study_imp$imp_no    <- sub("^.*_imp", "", by_study_imp$study_imp)

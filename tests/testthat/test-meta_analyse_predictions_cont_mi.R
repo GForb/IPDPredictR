@@ -16,4 +16,9 @@ test_that("meta_analyse_predictions_cont_mi", {
 
   expect_equal(nrow(results$results_df), 5)
   expect_equal(length(results$results_list), 5)
+  
+  results <- meta_analyse_predictions_cont_mi(predictions = cont_preds |> tibble::as_tibble(), study_var_name = "new_study", imp_indicator_name = "imp_no")
+  
+  expect_equal(nrow(results$results_df), 5)
+  expect_equal(length(results$results_list), 5)
 })
