@@ -117,6 +117,7 @@ metric_rsqared_transformed <- function(predicted_lp, observed_outcome) {
 
 
 metric_rsqared_old <- function(predicted_lp, observed_outcome) {
+  bootsrap_replicates = 1000
   data <- data.frame(predicted_lp = predicted_lp, observed_outcome = observed_outcome)
   coef <- rsq(data)
   # Use a bootstrap to estimate the variance

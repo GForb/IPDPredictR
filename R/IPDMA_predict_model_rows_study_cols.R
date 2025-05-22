@@ -31,7 +31,7 @@ IPDMA_predict_model_rows_study_cols <- function(model_factories, model_labels=NU
          test_data = test_data, 
          study_var_name = study_var_name)
   
-  results_df <- bind_rows(df_list)
+  results_df <- dplyr::bind_rows(df_list)
   
   return(results_df)
   

@@ -83,7 +83,7 @@ get_fixed_int_offset <- function(model, newdata, cluster_var) {
 }
 
 get_x_prediction <- function(model, newdata) {
-  predictors <- newdata |> dplyr::select(starts_with("x"))
+  predictors <- newdata |> dplyr::select(dplyr::starts_with("x"))
   predictor_names <- colnames(predictors)
   betas <- model$coef[predictor_names]
   pred_fixed <- as.matrix(predictors)%*%betas

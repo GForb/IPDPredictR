@@ -58,7 +58,7 @@ get_predictions_by_study_IECV <- function(data, model_function, predict_function
   
   predictions_list <- lapply(studies, get_IECV_prediction_for_a_study, 
                              data = data, model_function = model_function,  study_col = study_col, predict_function = predict_function, out_var_name = out_var_name)
-  predictions_df <- do.call(rbind, results_list)
+  predictions_df <- do.call(rbind, predictions_list)
   rownames(predictions_df) <- NULL
   return(predictions_df)
 }
