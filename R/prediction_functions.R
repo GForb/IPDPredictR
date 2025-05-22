@@ -1,3 +1,13 @@
+#' Prediction of cluster intercepts
+#'
+#' For lmerMod models it returns empirical Bayes predicitons of intercepts. For lm models it returns maximum liklihood estaitmes.
+#' @inherit predict_fixed
+#' @param cluster_var The name of the cluster variable as a string. Note for lm models it assumes other predictors start with "x"
+#'
+#' @returns A data.frame with the first column being the cluster variable and the second column being the predicted intercept.
+#' @export
+#'
+#' @examples
 predict_intercepts <- function(model, newdata, cluster_var = "studyid") {
   if(class(model)[1]== "lmerMod"){
     intercepts <- get_rand_int(model, newdata)
@@ -6,6 +16,19 @@ predict_intercepts <- function(model, newdata, cluster_var = "studyid") {
   }
 }
 
+#' Predictions from a model excluding the cluster variable
+#' 
+#' Provides predictions for linear predictor of a model excluding the study var for random intercept or linear regression models. 
+#' For random intercept models it returns the predictions with random intercepts set to zero. 
+#' For linear regression models it returns the predictions based only on variables that start with the letter "x"
+#'
+#' @param model A model, either lm or lmerMod
+#' @param newdata A data frame with the same structure as the data used to fit the model
+#'
+#' @returns A vector of predicted values
+#' @export 
+#'
+#' @examples
 predict_fixed <- function(model, newdata) {
   if(class(model)[1]== "lmerMod"){
     pred  <- predict(model, newdata = newdata, re.form = NA, allow.new.levels = TRUE)

@@ -1,3 +1,12 @@
+#' Meta-analyse predictions for continuous outcomes with multiple imputation
+#'
+#' @inherit meta_analyse_predictions_cont
+#' @param imp_indicator_name The name of the column indicating which imputed data set was used
+#'
+#' @returns
+#' @export
+#'
+#' @examples
 meta_analyse_predictions_cont_mi <- function(predictions, study_var_name, imp_indicator_name) {
   # 1. Estimate model performance in each imp_rep for each study
   predictions <- predictions |> as.data.frame()

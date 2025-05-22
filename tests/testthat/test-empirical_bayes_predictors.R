@@ -7,7 +7,6 @@ test_that("get_rand_int", {
   
   pred_re <- lme4::ranef(model)
   my_re <- get_rand_int(model, newdata = data)
-  chatGPT_re <- predict_random_effects(model, newdata = data)
   diff <- pred_re$studyid - my_re$pred_intercept
   expect_equal(length(pred_re$studyid [[1]]), length(my_re$pred_intercept))
   

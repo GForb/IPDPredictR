@@ -16,6 +16,15 @@ results_flextable <- function(results_df, est_digits = 2, ci_column_width_in = 1
   return(ft)
 }
 
+#' Format results data.frame so it has text columns with intervals in
+#'
+#' @param results_df A data frame with meta-analysis results
+#' @param digits The number of decimal places to use with prediciton and confidence intervals
+#'
+#' @returns A formatted data.frame
+#' @export
+#'
+#' @examples
 compress_columns <- function(results_df, digits = 2) {
   results_df |> dplyr::mutate(ci = form_interval(ci.lb, ci.ub, digits)) |> 
     dplyr::mutate(pi = form_interval(pi.lb, pi.ub, digits)) |> 

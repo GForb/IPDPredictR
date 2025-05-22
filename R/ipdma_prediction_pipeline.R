@@ -8,6 +8,15 @@ ipdma_prediction_pipeline_model_pred_cont <- function(data, model_pred_fun, out_
 
 
 
+#' Meta-anlyse predictions of a continuous outcome
+#'
+#' @param predictions A data frame containing individual level predictions in the 'pred' column, observed values in the 'actual' column and a column indicating study
+#' @param study_var_name A string containing the name of the column indicating study
+#'
+#' @returns The results of the meta analysis
+#' @export
+#'
+#' @examples
 meta_analyse_predictions_cont <- function(predictions, study_var_name) {
   evaluate_performance <-  evaluate_performance_cont_obs_pred
   results <-  meta_analyse_predictions(predictions = predictions, evaluate_performance = evaluate_performance, study_var_name = study_var_name)
@@ -75,6 +84,16 @@ meta_analyse_predictions <- function(predictions, evaluate_performance, study_va
 }
 
 
+#' Title
+#'
+#' @param by_study_predictions_df A dataframe containing individaul level predictions in the 'pred' column, observed values in the 'actual' column and a column indcating study
+#' @param evaluate_performance The function used to evaluate performance
+#' @param study_var_name The name of the study column
+#'
+#' @returns A data.frame containing the performance of the model for each study
+#' @export
+#'
+#' @examples
 get_performance_by_study <- function(by_study_predictions_df, evaluate_performance, study_var_name) {
   by_study_predictions_df <-  by_study_predictions_df |> as.data.frame()  # added to aviod bug that can occur if by_study_predictions_df is a tibble
   study_col <- by_study_predictions_df[,study_var_name]

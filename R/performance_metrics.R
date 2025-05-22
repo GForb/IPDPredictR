@@ -171,6 +171,15 @@ evaluate_performance_continuous <- function(test_data, model, new_studies = FALS
 
 }
 
+#' Calculates model performance metrics for a continuous outcome vectors of predicted values and actuals
+#'
+#' @param A vector of observed outcomes 
+#' @param A vector of predicted outcomes 
+#'
+#' @returns A data.frame with columns for metric name, estimate and standard error.
+#' @export
+#'
+#' @examples
 evaluate_performance_cont_obs_pred <- function(actual, predicted) {
   rbind(
     metric_calib_slope_cont(predicted, actual),
@@ -182,6 +191,14 @@ evaluate_performance_cont_obs_pred <- function(actual, predicted) {
   )
 }
 
+#' Calibration slope and intercept for a continuous outcome
+#'
+#' @inherit evaluate_performance_cont_obs_pred
+#'
+#' @returns A data.frame with columns for metric name, estimate and standard error.
+#' @export
+#'
+#' @examples
 evaluate_performance_cont_obs_pred_calib_slope_int <- function(actual, predicted) {
   metric_calib_slope_cont(predicted, actual, report_intercept = TRUE)
 }

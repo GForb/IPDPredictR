@@ -1,4 +1,4 @@
-# this probably introduces circular dependancy with ProFacSIms
+# this probably introduces circular dependency with ProFacSims
 
 test_gen_cont_data <- function() {
   sigmas <- ProfacSims:::get_sigmas(n_predictors = 12, ICC = 0.3, R2 = 0.7)

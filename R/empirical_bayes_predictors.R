@@ -6,6 +6,15 @@
 
 # 1. Random intercept models
 
+#' Returns empirical bayes predictions for random intercepts for new clusters for a random intercept model estimated with lme4
+#'
+#' @param model An lme4 model object
+#' @param newdata A data frame with the same structure as the data used to fit the model
+#'
+#' @returns Returns a data.frame, the first column is the cluster variable and the second column is the empirical bayes prediction for the intercept.
+#' @export
+#'
+#' @examples
 get_rand_int <- function(model, newdata) {
   
   outcome <- names(stats::model.frame(model))[1]
@@ -34,6 +43,13 @@ get_rand_int <- function(model, newdata) {
 
 # 2. Random slope
 
+#' Empirical Bayes predictions for 2 level mixed effects models estimated using lme4 THIS FUNCTION DOES NOT WORK
+#'
+#' @inherit get_rand_int
+#'
+#' @returns
+#'
+#' @examples
 eb <- function(model, newdata) {
   outcome <- names(stats::model.frame(model))[1]
   

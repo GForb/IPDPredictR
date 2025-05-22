@@ -1,3 +1,12 @@
+#' Create a calibration plot following meta-analysis THIS IS NOT OPTIMAL
+#'
+#'This may not be the optimal approach as smoothed calibraiton is plotted using all observations from internal-external cross-validation.
+#'
+#' @inherit meta_analysis_cont
+#'
+#' @returns Creates a plot showing all predicted and observed values from  internal-external cross-validation as well as the calibraion slope line fom the meta-analysis.
+#'
+#' @examples
 calibration_plot_cont <- function(predictions_df, study_var_name) {
   calib_results <- get_performance_by_study(
     study_var_name = study_var_name, 

@@ -1,5 +1,5 @@
 test_that("evaluate_performance_continuous", {
-  n_metrics <- 4
+  n_metrics <- 5
   perf = evaluate_performance_continuous(test_data = test_gen_cont_data(),
                                          model = test_model_cont( data = test_gen_cont_data()))
   expect_equal(ncol(perf), 3)
